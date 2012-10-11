@@ -26,4 +26,9 @@ public class FakeAuctionServer {
 		
 	}
 
+	public Object getItemId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
