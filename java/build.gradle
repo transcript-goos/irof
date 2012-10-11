@@ -6,6 +6,8 @@ repositories {
 }
 
 dependencies {
+  compile 'org.igniterealtime.smack:smack:3.2.1'
+  compile 'org.igniterealtime.smack:smackx:3.2.1'
   testCompile 'junit:junit:4.10'
   testCompile fileTree(dir: 'lib', include: '*.jar')
 }
