@@ -1,7 +1,5 @@
 package net.codersation.goos;
 
-import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.SwingUtilities;
 
 import org.jivesoftware.smack.Chat;
@@ -12,6 +10,8 @@ import org.jivesoftware.smack.packet.Message;
 
 public class Main {
 	private MainWindow ui;
+
+	@SuppressWarnings("unused")
 	private Chat notToBeGcd;
 
 	public static final String MAIN_WINDOW_NAME = null;
