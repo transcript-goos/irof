@@ -2,7 +2,7 @@ package net.codersation.goos;
 
 public class ApplicationRunner {
 
-	protected static final String XMPP_HOSTNAME = null;
+	protected static final String XMPP_HOSTNAME = "localhost";
 	public static final String SNIPER_ID = "sniper";
 	public static final String SNIPER_PASSWORD = "sniper";
 	private static final String STATUS_JOINING = null;
