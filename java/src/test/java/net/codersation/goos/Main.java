@@ -14,9 +14,6 @@ public class Main {
 	@SuppressWarnings("unused")
 	private Chat notToBeGcd;
 
-	public static final String MAIN_WINDOW_NAME = null;
-	public static final String SNIPER_STATUS_NAME = null;
-
 	private static final int ARG_HOSTNAME = 0;
 	private static final int ARG_USERNAME = 1;
 	private static final int ARG_PASSWORD = 2;
