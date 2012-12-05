@@ -11,7 +11,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
-public class Main {
+public class Main implements AuctionEventListner {
 	private MainWindow ui;
 
 	@SuppressWarnings("unused")
@@ -30,7 +30,6 @@ public class Main {
 	public static final String ITEM_ID_AS_LOGIN = "auction-%s";
 	public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 
-
 	public Main() throws Exception {
 		startUserInterface();
 	}
@@ -42,19 +41,20 @@ public class Main {
 
 	private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
 		disconnectWhenUICloses(connection);
-		Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), new MessageListener() {
+		Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection),
+				new AuctionMessageTranslator(this));
+		chat.sendMessage(JOIN_COMMAND_FORMAT);
+		this.notToBeGcd = chat;
+	}
+
+	@Override
+	public void auctionClosed() {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
-			public void processMessage(Chat chat, Message message) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						ui.showStatus(MainWindow.STATUS_LOST);
-					}
-				});
+			public void run() {
+				ui.showStatus(MainWindow.STATUS_LOST);
 			}
 		});
-		this.notToBeGcd = chat;
-		chat.sendMessage(JOIN_COMMAND_FORMAT);
 	}
 
 	private void disconnectWhenUICloses(final XMPPConnection connection) {
@@ -85,4 +85,5 @@ public class Main {
 			}
 		});
 	}
+
 }
