@@ -71,4 +71,14 @@ public class FakeAuctionServer {
 			assertThat("Message", messsages.poll(5, TimeUnit.SECONDS), is(notNullValue()));
 		}
 	}
+
+	public void reportPrice(int i, int j, String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void hasRecievedBid(int i, String sniperXmppId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
