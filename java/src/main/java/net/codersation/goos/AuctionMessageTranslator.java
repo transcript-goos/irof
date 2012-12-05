@@ -6,9 +6,13 @@ import org.jivesoftware.smack.packet.Message;
 
 public class AuctionMessageTranslator implements MessageListener {
 
-	public void processMessage(Chat unusedChat, Message message) {
-		// TODO Auto-generated method stub
-		
+	private final AuctionEventListner listner;
+
+	public AuctionMessageTranslator(AuctionEventListner listner) {
+		this.listner = listner;
 	}
 
+	public void processMessage(Chat unusedChat, Message message) {
+		listner.auctionClosed();
+	}
 }

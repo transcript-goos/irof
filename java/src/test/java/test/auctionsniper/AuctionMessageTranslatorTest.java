@@ -20,7 +20,7 @@ public class AuctionMessageTranslatorTest {
 	private final Mockery context = new Mockery();
 	private final AuctionEventListner listner = context.mock(AuctionEventListner.class);
 	public static final Chat UNUSED_CHAT = null;
-	private final AuctionMessageTranslator translator = new AuctionMessageTranslator();
+	private final AuctionMessageTranslator translator = new AuctionMessageTranslator(listner);
 
 	@Test
 	public void notifiesAuctionClosedWhenCloseMessageRecieved() throws Exception {
