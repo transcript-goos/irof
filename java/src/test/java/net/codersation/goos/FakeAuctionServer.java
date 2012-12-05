@@ -1,5 +1,7 @@
 package net.codersation.goos;
 
+import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -7,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Matcher;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
@@ -43,7 +46,7 @@ public class FakeAuctionServer {
 	}
 
 	public void hasReceivedJoinRequestFromSniper() throws InterruptedException {
-		messageListener.receiveAMessage();
+		messageListener.receiveAMessage(is(anything()));
 	}
 
 	public void announceClosed() throws XMPPException {
@@ -58,6 +61,17 @@ public class FakeAuctionServer {
 		return itemId;
 	}
 
+	public void reportPrice(int price, int increment, String bidder) throws XMPPException {
+		currentChat.sendMessage(String
+				.format("SOLVersion: 1.1; Event: ORICE; Currentprice: %d; Increment: %d; Bidder: %s;", price,
+						increment, bidder));
+	}
+
+	public void hasRecievedBid(int bid, String sniperId) throws InterruptedException {
+		assertThat(currentChat.getParticipant(), equalTo(sniperId));
+		messageListener.receiveAMessage(equalTo(String.format("SOLVersion: 1.1; Command: BID; price: %d;", bid)));
+	}
+
 	public static class SingleMessageListener implements MessageListener {
 
 		private final ArrayBlockingQueue<Message> messsages = new ArrayBlockingQueue<>(1);
@@ -67,18 +81,10 @@ public class FakeAuctionServer {
 			messsages.add(message);
 		}
 
-		public void receiveAMessage() throws InterruptedException {
-			assertThat("Message", messsages.poll(5, TimeUnit.SECONDS), is(notNullValue()));
+		public void receiveAMessage(Matcher<? super String> messageMatcher) throws InterruptedException {
+			final Message messsage = messsages.poll(5, TimeUnit.SECONDS);
+			assertThat("Message", messsage, is(notNullValue()));
+			assertThat(messsage.getBody(), messageMatcher);
 		}
-	}
-
-	public void reportPrice(int i, int j, String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void hasRecievedBid(int i, String sniperXmppId) {
-		// TODO Auto-generated method stub
-		
 	}
 }
