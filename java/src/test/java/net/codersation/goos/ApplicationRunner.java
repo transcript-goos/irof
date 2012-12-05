@@ -7,6 +7,7 @@ public class ApplicationRunner {
 	public static final String SNIPER_PASSWORD = "sniper";
 	private static final String STATUS_JOINING = "Joining";
 	private static final String STATUS_LOST = "Lost";
+	private static final String STATUS_BIDDING = "Bidding";
 	public static final String SNIPER_XMPP_ID = "sniper@localhost/Auction";
 	private AuctionSniperDriver driver;
 
@@ -31,15 +32,13 @@ public class ApplicationRunner {
 		driver.showsSniperStatus(STATUS_LOST);
 	}
 
+	public void hasShownSniperIsBidding() {
+		driver.showsSniperStatus(STATUS_BIDDING);
+	}
+
 	public void stop() {
 		if (driver != null) {
 			driver.dispose();
 		}
 	}
-
-	public void hasShownSniperIsBidding() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

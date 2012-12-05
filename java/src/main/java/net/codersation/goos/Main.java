@@ -1,5 +1,8 @@
 package net.codersation.goos;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.SwingUtilities;
 
 import org.jivesoftware.smack.Chat;
@@ -38,6 +41,7 @@ public class Main {
 	}
 
 	private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+		disconnectWhenUICloses(connection);
 		Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), new MessageListener() {
 			@Override
 			public void processMessage(Chat chat, Message message) {
@@ -51,6 +55,15 @@ public class Main {
 		});
 		this.notToBeGcd = chat;
 		chat.sendMessage(JOIN_COMMAND_FORMAT);
+	}
+
+	private void disconnectWhenUICloses(final XMPPConnection connection) {
+		ui.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				connection.disconnect();
+			}
+		});
 	}
 
 	private static String auctionId(String itemId, XMPPConnection connection) {
