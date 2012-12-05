@@ -41,7 +41,7 @@ public class AuctionMessageTranslatorTest {
 		}});
 
 		Message message = new Message();
-		message.setBody("SOLVersion: 1.1; Event: price; CurrentPrice: 192; Increment: 7; Bidder: Someone else;");
+		message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: Someone else;");
 
 		translator.processMessage(UNUSED_CHAT, message);
 	}
