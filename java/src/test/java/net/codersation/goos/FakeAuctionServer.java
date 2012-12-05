@@ -1,6 +1,6 @@
 package net.codersation.goos;
 
-import static org.hamcrest.CoreMatchers.anything;
+import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -45,10 +45,6 @@ public class FakeAuctionServer {
 		});
 	}
 
-	public void hasReceivedJoinRequestFromSniper() throws InterruptedException {
-		messageListener.receiveAMessage(is(anything()));
-	}
-
 	public void announceClosed() throws XMPPException {
 		currentChat.sendMessage(new Message());
 	}
@@ -62,14 +58,21 @@ public class FakeAuctionServer {
 	}
 
 	public void reportPrice(int price, int increment, String bidder) throws XMPPException {
-		currentChat.sendMessage(String
-				.format("SOLVersion: 1.1; Event: ORICE; Currentprice: %d; Increment: %d; Bidder: %s;", price,
-						increment, bidder));
+		currentChat.sendMessage(format(Main.REPORT_PRICE_COMMAND_FORMAT, price, increment, bidder));
+	}
+
+	public void hasReceivedJoinRequestFromSniper(String sniperId) throws InterruptedException {
+		receivesAMessageMatching(sniperId, equalTo(format(Main.JOIN_COMMAND_FORMAT)));
 	}
 
 	public void hasRecievedBid(int bid, String sniperId) throws InterruptedException {
+		receivesAMessageMatching(sniperId, equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
+	}
+
+	private void receivesAMessageMatching(String sniperId, Matcher<? super String> messageMatcher)
+			throws InterruptedException {
+		messageListener.receiveAMessage(messageMatcher);
 		assertThat(currentChat.getParticipant(), equalTo(sniperId));
-		messageListener.receiveAMessage(equalTo(String.format("SOLVersion: 1.1; Command: BID; price: %d;", bid)));
 	}
 
 	public static class SingleMessageListener implements MessageListener {

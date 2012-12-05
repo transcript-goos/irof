@@ -14,6 +14,11 @@ public class Main {
 	@SuppressWarnings("unused")
 	private Chat notToBeGcd;
 
+	public static final String JOIN_COMMAND_FORMAT = "join";
+	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; price: %d;";
+
+	public static final String REPORT_PRICE_COMMAND_FORMAT = "SOLVersion: 1.1; Event: ORICE; Currentprice: %d; Increment: %d; Bidder: %s;";
+
 	private static final int ARG_HOSTNAME = 0;
 	private static final int ARG_USERNAME = 1;
 	private static final int ARG_PASSWORD = 2;
@@ -21,6 +26,7 @@ public class Main {
 	public static final String AUCTION_RESOURCE = "Auction";
 	public static final String ITEM_ID_AS_LOGIN = "auction-%s";
 	public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+
 
 	public Main() throws Exception {
 		startUserInterface();
@@ -44,7 +50,7 @@ public class Main {
 			}
 		});
 		this.notToBeGcd = chat;
-		chat.sendMessage(new Message());
+		chat.sendMessage(JOIN_COMMAND_FORMAT);
 	}
 
 	private static String auctionId(String itemId, XMPPConnection connection) {

@@ -15,7 +15,7 @@ public class ApplicationSniperEndToEndTest {
 		// Step 2
 		application.startBiddingIn(auction);
 		// Step 3
-		auction.hasReceivedJoinRequestFromSniper();
+		auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
 		// Step 4
 		auction.announceClosed();
 		// Step 5
@@ -27,7 +27,7 @@ public class ApplicationSniperEndToEndTest {
 		auction.startSellingItem();
 
 		application.startBiddingIn(auction);
-		auction.hasReceivedJoinRequestFromSniper();
+		auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
 
 		auction.reportPrice(1000, 98, "other bidder");
 
